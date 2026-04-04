@@ -1,5 +1,5 @@
 import Foundation
 
-struct User {
+struct User : Decodable {
     let name: String
 }

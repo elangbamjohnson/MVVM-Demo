@@ -38,8 +38,16 @@ final class UserViewModel {
 //    When data comes back, it assigns it to self?.users.
 //    Because of didSet on users, reloadTableView?() will automatically be called.
     func fetchUsers() {
-        service.fetchUsers { [weak self] users in
-            self?.users = users
+        Task { [weak self] in
+            do {
+                let users = try await self?.service.fetchUsers() ?? []
+                await MainActor.run {
+                    self?.users = users
+                }
+            } catch {
+                // You can surface errors via another callback if needed
+                // For now, keep previous behavior and avoid crashing on failure
+            }
         }
     }
     
