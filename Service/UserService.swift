@@ -18,26 +18,27 @@ enum NetworkError: Error {
 // final class: This means the class cannot be subclassed. It's a performance optimization and a way to clearly signal that this class is not meant to be inherited from.
 final class UserService: UserServiceProtocol {
     
+    private let network: NetworkManagerProtocol
+
+    init(network: NetworkManagerProtocol = NetworkManager()) {
+        self.network = network
+    }
+    
+//    init(network: NetworkManagerProtocol = NetworkManager()) {
+//        self.network = network
+//    }
+    
     // MARK: - Async/Await implementation fetching real data
     func fetchUsers() async throws -> [User] {
-        // Example public API with user data
         guard let url = URL(string: "https://jsonplaceholder.typicode.com/users") else {
             throw NetworkError.invalidURL
         }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-            throw NetworkError.invalidResponse
-        }
-        
-        // Decode only the fields we need and map to your local User model
-        do {
-            let remote = try JSONDecoder().decode([User].self, from: data)
-            return remote.map { User(name: $0.name) }
-        } catch {
-            throw NetworkError.decodingError
-        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        // Decode remote users and map to local model if needed
+        let remote = try await network.request(request, decode: [User].self)
+        return remote.map { User(name: $0.name) }
     }
     
     // MARK: - Deprecated completion-based API
@@ -54,3 +55,4 @@ final class UserService: UserServiceProtocol {
         }
     }
 }
+

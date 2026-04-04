@@ -13,7 +13,7 @@ final class UserViewController: UIViewController {
     private let viewModel : UserViewModel
     
     //Inject ViewModel
-    init(viewModel: UserViewModel) {
+    init(viewModel: UserViewModel = UserViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

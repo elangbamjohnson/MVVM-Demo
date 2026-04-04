@@ -22,9 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let service = UserService()
-        let viewModel = UserViewModel(service: service)
-        let vc = UserViewController(viewModel: viewModel)
+        let vc = UserViewController()
         
         window?.rootViewController = vc
         window?.makeKeyAndVisible()

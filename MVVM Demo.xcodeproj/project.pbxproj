@@ -13,6 +13,7 @@
 		2C55507F2F7A7E670033B489 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C55507E2F7A7E670033B489 /* User.swift */; };
 		2C5550812F7A7E780033B489 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5550802F7A7E780033B489 /* UserService.swift */; };
 		2C5550832F7A7E7D0033B489 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5550822F7A7E7D0033B489 /* UserViewModel.swift */; };
+		2C794B412F80EA660026F32A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C794B402F80EA660026F32A /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		2C55507E2F7A7E670033B489 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2C5550802F7A7E780033B489 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		2C5550822F7A7E7D0033B489 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		2C794B402F80EA660026F32A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				2C5550802F7A7E780033B489 /* UserService.swift */,
+				2C794B402F80EA660026F32A /* NetworkManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				2C55507F2F7A7E670033B489 /* User.swift in Sources */,
 				2C5550832F7A7E7D0033B489 /* UserViewModel.swift in Sources */,
 				2C5550812F7A7E780033B489 /* UserService.swift in Sources */,
+				2C794B412F80EA660026F32A /* NetworkManager.swift in Sources */,
 				2C55504A2F7A6A6A0033B489 /* UserViewController.swift in Sources */,
 				2C5550462F7A6A6A0033B489 /* AppDelegate.swift in Sources */,
 				2C5550482F7A6A6A0033B489 /* SceneDelegate.swift in Sources */,

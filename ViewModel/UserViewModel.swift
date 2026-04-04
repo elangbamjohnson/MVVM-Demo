@@ -8,7 +8,7 @@ final class UserViewModel {
     private let service : UserServiceProtocol
     
     //Inject service
-    init(service: UserServiceProtocol) {
+    init(service: UserServiceProtocol = UserService()) {
         self.service = service
     }
     
