@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "xcode-tools": {
+      "command": "xcrun",
+      "args": [
+        "mcpbridge"
+      ]
+    }
+  }
+  {
+    "geminicodeassist.agentYoloMode": true
+  }
+}

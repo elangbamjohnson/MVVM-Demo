@@ -10,6 +10,14 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private let network = NetworkManager()
+    private let storage = FileUserStorage()
+    private lazy var service = UserService(network: network, storage: storage)
+    private lazy var repository = UserRepository(
+        service: service,
+        storage: storage)
+    private lazy var viewModel = UserViewModel(repository: repository)
+    
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -22,11 +30,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let vc = UserViewController()
+        let vc = UserViewController(viewModel: viewModel)
         
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
+        // Load user data on application launch
+        Task {
+            await repository.load()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

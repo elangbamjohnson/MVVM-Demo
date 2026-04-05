@@ -19,14 +19,12 @@ enum NetworkError: Error {
 final class UserService: UserServiceProtocol {
     
     private let network: NetworkManagerProtocol
+    private let storage: UserStorageProtocol
 
-    init(network: NetworkManagerProtocol = NetworkManager()) {
+    init(network: NetworkManagerProtocol = NetworkManager(), storage: UserStorageProtocol = FileUserStorage()) {
         self.network = network
+        self.storage = storage
     }
-    
-//    init(network: NetworkManagerProtocol = NetworkManager()) {
-//        self.network = network
-//    }
     
     // MARK: - Async/Await implementation fetching real data
     func fetchUsers() async throws -> [User] {
@@ -38,7 +36,12 @@ final class UserService: UserServiceProtocol {
 
         // Decode remote users and map to local model if needed
         let remote = try await network.request(request, decode: [User].self)
-        return remote.map { User(name: $0.name) }
+        let users = remote.map { User(name: $0.name) }
+        
+        // Save to storage after successful fetch
+        try? storage.saveUsers(users)
+        
+        return users
     }
     
     // MARK: - Deprecated completion-based API

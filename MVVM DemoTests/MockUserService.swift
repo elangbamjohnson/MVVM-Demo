@@ -16,6 +16,11 @@ class MockUserService: UserServiceProtocol {
         User(name: "Test2")
     ]
     
+    func fetchUsers() async throws -> [User] {
+        fetchUsersCalled = true
+        return usersToReturn
+    }
+
     func fetchUsers(completion: @escaping ([User]) -> Void) {
         fetchUsersCalled = true
         completion(usersToReturn)
