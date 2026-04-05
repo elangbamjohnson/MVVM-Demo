@@ -1,9 +1,9 @@
 import Foundation
 import Combine
 
-//final class: Same as before — prevents subclassing for better performance and clarity.
+// UserViewModel: Refactored to be an ObservableObject for SwiftUI.
 @MainActor
-final class UserViewModel {
+final class UserViewModel: ObservableObject {
     
     enum LoadingState {
         case idle
@@ -11,11 +11,14 @@ final class UserViewModel {
         case refreshing
     }
     
-    //Creates a private instance of UserRepository.
+    // Observed by SwiftUI
+    @Published private(set) var users: [User] = []
+    @Published private(set) var state: LoadingState = .idle
+    
     private let repository : UserRepository
     private var cancellables = Set<AnyCancellable>()
     
-    //Inject repository
+    // Inject repository
     init(repository: UserRepository) {
         self.repository = repository
         setupBindings()
@@ -24,10 +27,7 @@ final class UserViewModel {
     private func setupBindings() {
         // Bind repository's users to our local users array
         repository.$users
-            .sink { [weak self] users in
-                self?.users = users
-            }
-            .store(in: &cancellables)
+            .assign(to: &$users)
             
         // Observe repository's refresh state to update our internal LoadingState
         repository.$isRefreshing
@@ -45,45 +45,16 @@ final class UserViewModel {
             .store(in: &cancellables)
     }
     
-    //        didSet: This is a property observer
-    //        Every time users is assigned a new value, didSet automatically runs.
-    //        It calls reloadTableView?() to tell the View: “Hey, the data has changed, please refresh the table!”
-    //        This is a very common and clean way to notify the UI in MVVM without using delegates or notifications.
-    var users: [User] = [] {
-        didSet {
-            self.reloadTableView?()
-        }
-    }
-    
-    
-    //    This is a closure property (callback).
-    //    The View (ViewController) will assign its own function here.
-    //    When the ViewModel wants the table to reload, it calls this closure.
-    //    It's optional (?) because it may not be set yet.
-    var reloadTableView: (() -> Void)?
-    var onStateChange: ((LoadingState) -> Void)?
-    
-    private(set) var state: LoadingState = .idle {
-        didSet {
-            onStateChange?(state)
-        }
-    }
-    
-    //    Calls the fetchUsers() method from UserRepository.
+    // Calls the fetchUsers() method from UserRepository.
     func fetchUsers() {
         Task {
             await repository.load()
         }
     }
     
-//    Returns how many rows the table should show.
-    func numberOfRows() -> Int {
-        return users.count
-    }
-    
-//    Returns the name of the user at a specific row (safe to call from the View).
+    // Helpers for SwiftUI View (if needed, though SwiftUI can access users directly)
     func userName(at index: Int) -> String {
+        guard index < users.count else { return "" }
         return users[index].name
     }
-    
 }

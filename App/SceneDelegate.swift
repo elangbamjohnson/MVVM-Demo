@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -30,7 +31,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let vc = UserViewController(viewModel: viewModel)
+        // Host our SwiftUI UserView inside a UIHostingController
+        let rootView = UserView(viewModel: viewModel)
+        let vc = UIHostingController(rootView: rootView)
         
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
