@@ -120,6 +120,7 @@
 				2C55505B2F7A6A6E0033B489 /* MVVM DemoTests */,
 				2C5550652F7A6A6E0033B489 /* MVVM DemoUITests */,
 				2C5550432F7A6A6A0033B489 /* Products */,
+				2CDCABDF2F82C9B1004DF22C /* Repository */,
 			);
 			sourceTree = "<group>";
 		};
@@ -160,11 +161,8 @@
 		2C5550792F7A6ADE0033B489 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				2C5550802F7A7E780033B489 /* UserService.swift */,
-				2C794B402F80EA660026F32A /* NetworkManager.swift */,
-				2C9712B42F817C75006F3572 /* UserStorageProtocol.swift */,
-				2C9712B62F817CCE006F3572 /* FileUserStorage.swift */,
-				2C9712B82F817D27006F3572 /* UserRepository.swift */,
+				2CDCABE02F82C9B1004DF22C /* Networking */,
+				2CDCABE12F82C9B1004DF22C /* Persistence */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -176,6 +174,32 @@
 				2C5550472F7A6A6A0033B489 /* SceneDelegate.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		2CDCABDF2F82C9B1004DF22C /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				2C9712B82F817D27006F3572 /* UserRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		2CDCABE02F82C9B1004DF22C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				2C5550802F7A7E780033B489 /* UserService.swift */,
+				2C794B402F80EA660026F32A /* NetworkManager.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		2CDCABE12F82C9B1004DF22C /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				2C9712B62F817CCE006F3572 /* FileUserStorage.swift */,
+				2C9712B42F817C75006F3572 /* UserStorageProtocol.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
