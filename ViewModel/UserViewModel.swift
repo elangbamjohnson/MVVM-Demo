@@ -5,6 +5,12 @@ import Combine
 @MainActor
 final class UserViewModel {
     
+    enum LoadingState {
+        case idle
+        case loading
+        case refreshing
+    }
+    
     //Creates a private instance of UserRepository.
     private let repository : UserRepository
     private var cancellables = Set<AnyCancellable>()
@@ -20,6 +26,21 @@ final class UserViewModel {
         repository.$users
             .sink { [weak self] users in
                 self?.users = users
+            }
+            .store(in: &cancellables)
+            
+        // Observe repository's refresh state to update our internal LoadingState
+        repository.$isRefreshing
+            .sink { [weak self] isRefreshingFromNetwork in
+                guard let self = self else { return }
+                
+                if isRefreshingFromNetwork {
+                    // If we have data, we're refreshing. If empty, we're loading.
+                    self.state = self.users.isEmpty ? .loading : .refreshing
+                } else {
+                    // Network refresh finished, transition to idle
+                    self.state = .idle
+                }
             }
             .store(in: &cancellables)
     }
@@ -40,13 +61,15 @@ final class UserViewModel {
     //    When the ViewModel wants the table to reload, it calls this closure.
     //    It's optional (?) because it may not be set yet.
     var reloadTableView: (() -> Void)?
+    var onStateChange: ((LoadingState) -> Void)?
     
+    private(set) var state: LoadingState = .idle {
+        didSet {
+            onStateChange?(state)
+        }
+    }
     
     //    Calls the fetchUsers() method from UserRepository.
-    //    [weak self]: This is a capture list to prevent retain cycles (memory leaks).
-    //    It captures self weakly so the ViewModel doesn't strongly hold the closure.
-    //    When data comes back, it assigns it to self?.users.
-    //    Because of didSet on users, reloadTableView?() will automatically be called.
     func fetchUsers() {
         Task {
             await repository.load()

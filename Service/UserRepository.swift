@@ -4,6 +4,7 @@ import Combine
 @MainActor
 final class UserRepository: ObservableObject {
     @Published private(set) var users: [User] = []
+    @Published private(set) var isRefreshing: Bool = false
 
     private let service: UserServiceProtocol
     private let storage: UserStorageProtocol
@@ -24,6 +25,9 @@ final class UserRepository: ObservableObject {
         }
 
         // 2) Refresh from network in background
+        isRefreshing = true
+        defer { isRefreshing = false }
+        
         do {
             let fresh = try await service.fetchUsers()
             // Persist

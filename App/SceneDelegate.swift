@@ -34,11 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
-        
-        // Load user data on application launch
-        Task {
-            await repository.load()
-        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -10,6 +10,7 @@ import UIKit
 final class UserViewController: UIViewController {
     
     private let tableView = UITableView()
+    private let loadingLabel = UILabel()
     private let viewModel : UserViewModel
     
     //Inject ViewModel
@@ -29,6 +30,7 @@ final class UserViewController: UIViewController {
         view.backgroundColor = .white
         
         setupTableView()
+        setupLoadingUI()
         bindViewModel()
         
         viewModel.fetchUsers()
@@ -42,10 +44,42 @@ final class UserViewController: UIViewController {
         view.addSubview(tableView)
     }
     
+    private func setupLoadingUI() {
+        loadingLabel.text = "Loading..."
+        loadingLabel.textColor = .systemBlue
+        loadingLabel.textAlignment = .center
+        loadingLabel.font = .boldSystemFont(ofSize: 18)
+        loadingLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingLabel)
+        
+        NSLayoutConstraint.activate([
+            loadingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        loadingLabel.isHidden = true
+    }
+    
     private func bindViewModel() {
         
         viewModel.reloadTableView = { [weak self] in
             self?.tableView.reloadData()
+        }
+        
+        viewModel.onStateChange = { [weak self] state in
+            switch state {
+            case .idle:
+                self?.loadingLabel.isHidden = true
+                self?.tableView.alpha = 1.0
+            case .loading:
+                self?.loadingLabel.text = "Loading..."
+                self?.loadingLabel.isHidden = false
+                self?.tableView.alpha = 0.3
+            case .refreshing:
+                self?.loadingLabel.text = "Refreshing..."
+                self?.loadingLabel.isHidden = false
+                self?.tableView.alpha = 0.5
+            }
         }
     }
 }
