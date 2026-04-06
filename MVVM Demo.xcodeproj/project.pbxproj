@@ -17,6 +17,11 @@
 		2C9712B72F817CCE006F3572 /* FileUserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9712B62F817CCE006F3572 /* FileUserStorage.swift */; };
 		2C9712B92F817D27006F3572 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9712B82F817D27006F3572 /* UserRepository.swift */; };
 		2CDCABDE2F82C777004DF22C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDCABDD2F82C777004DF22C /* UserView.swift */; };
+		2CDCABE42F833A8C004DF22C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDCABE32F833A83004DF22C /* HomeView.swift */; };
+		2CDCABE62F833ADF004DF22C /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDCABE52F833ADA004DF22C /* FavoriteView.swift */; };
+		2CDCABE82F833B26004DF22C /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDCABE72F833B19004DF22C /* CheckoutView.swift */; };
+		2CDCABEA2F833B69004DF22C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDCABE92F833B60004DF22C /* ProfileView.swift */; };
+		2CDCABEC2F833C11004DF22C /* AppTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDCABEB2F833C07004DF22C /* AppTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +55,11 @@
 		2C9712B62F817CCE006F3572 /* FileUserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUserStorage.swift; sourceTree = "<group>"; };
 		2C9712B82F817D27006F3572 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		2CDCABDD2F82C777004DF22C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		2CDCABE32F833A83004DF22C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		2CDCABE52F833ADA004DF22C /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		2CDCABE72F833B19004DF22C /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
+		2CDCABE92F833B60004DF22C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2CDCABEB2F833C07004DF22C /* AppTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -145,6 +155,11 @@
 		2C5550772F7A6AB40033B489 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2CDCABE32F833A83004DF22C /* HomeView.swift */,
+				2CDCABE52F833ADA004DF22C /* FavoriteView.swift */,
+				2CDCABE72F833B19004DF22C /* CheckoutView.swift */,
+				2CDCABE92F833B60004DF22C /* ProfileView.swift */,
+				2CDCABEB2F833C07004DF22C /* AppTabView.swift */,
 				2CDCABDD2F82C777004DF22C /* UserView.swift */,
 			);
 			path = View;
@@ -350,11 +365,16 @@
 				2C55507F2F7A7E670033B489 /* User.swift in Sources */,
 				2C5550832F7A7E7D0033B489 /* UserViewModel.swift in Sources */,
 				2C9712B52F817C75006F3572 /* UserStorageProtocol.swift in Sources */,
+				2CDCABE62F833ADF004DF22C /* FavoriteView.swift in Sources */,
 				2C5550812F7A7E780033B489 /* UserService.swift in Sources */,
+				2CDCABE42F833A8C004DF22C /* HomeView.swift in Sources */,
+				2CDCABE82F833B26004DF22C /* CheckoutView.swift in Sources */,
 				2C9712B72F817CCE006F3572 /* FileUserStorage.swift in Sources */,
+				2CDCABEC2F833C11004DF22C /* AppTabView.swift in Sources */,
 				2C794B412F80EA660026F32A /* NetworkManager.swift in Sources */,
 				2C5550462F7A6A6A0033B489 /* AppDelegate.swift in Sources */,
 				2C9712B92F817D27006F3572 /* UserRepository.swift in Sources */,
+				2CDCABEA2F833B69004DF22C /* ProfileView.swift in Sources */,
 				2C5550482F7A6A6A0033B489 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

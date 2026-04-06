@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         // Host our SwiftUI UserView inside a UIHostingController
-        let rootView = UserView(viewModel: viewModel)
+        let rootView = AppTabView()//UserView(viewModel: viewModel)
         let vc = UIHostingController(rootView: rootView)
         
         window?.rootViewController = vc
