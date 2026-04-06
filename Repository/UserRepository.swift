@@ -5,6 +5,7 @@ import Combine
 final class UserRepository: ObservableObject {
     @Published private(set) var users: [User] = []
     @Published private(set) var isRefreshing: Bool = false
+    @Published var errorMessage: String? = nil
 
     private let service: UserServiceProtocol
     private let storage: UserStorageProtocol
@@ -14,28 +15,32 @@ final class UserRepository: ObservableObject {
         self.storage = storage
     }
 
-    /// Load cached users immediately, then refresh from the network and update storage and UI.
     func load() async {
-        // 1) Load from storage first
+        errorMessage = nil
+        
         do {
             let cached = try storage.loadUsers()
-            self.users = cached
+            if !cached.isEmpty {
+                self.users = cached
+            }
         } catch {
-            // Optionally log the storage load error
+            print("Storage load error: \(error.localizedDescription)")
         }
 
-        // 2) Refresh from network in background
         isRefreshing = true
         defer { isRefreshing = false }
         
         do {
             let fresh = try await service.fetchUsers()
-            // Persist
-            try storage.saveUsers(fresh)
-            // Publish
-            self.users = fresh
+            if fresh.isEmpty {
+                self.errorMessage = "No users found."
+            } else {
+                try storage.saveUsers(fresh)
+                self.users = fresh
+                self.errorMessage = nil
+            }
         } catch {
-            // Optionally log the network error
+            self.errorMessage = "Failed to fetch users: \(error.localizedDescription)"
         }
     }
 }

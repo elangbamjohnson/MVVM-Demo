@@ -12,6 +12,7 @@ final class UserViewModel: ObservableObject {
     
     @Published private(set) var users: [User] = []
     @Published private(set) var state: LoadingState = .idle
+    @Published private(set) var errorMessage: String? = nil
     @Published var selectedUserNames: Set<String> = []
     
     private let repository : UserRepository
@@ -36,6 +37,10 @@ final class UserViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+
+        repository.$errorMessage
+            .assign(to: &$errorMessage)
+ 
     }
     
     func fetchUsers() {

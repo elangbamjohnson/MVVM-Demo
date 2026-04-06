@@ -6,19 +6,33 @@ struct UserView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                List(viewModel.users) { user in
-                    HStack {
-                        Button(action: {
-                            viewModel.toggleSelection(for: user)
-                        }) {
-                            Image(systemName: viewModel.isSelected(user) ? "checkmark.square.fill" : "square")
-                                .foregroundColor(viewModel.isSelected(user) ? .blue : .gray)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                VStack {
+                    if let error = viewModel.errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .padding()
+                            .multilineTextAlignment(.center)
                         
-                        Text(user.name)
+                        Button("Try Again") {
+                            viewModel.fetchUsers()
+                        }
+                        .padding()
                     }
-                    .padding(.vertical, 10) // This increases the effective cell height
+
+                    List(viewModel.users) { user in
+                        HStack {
+                            Button(action: {
+                                viewModel.toggleSelection(for: user)
+                            }) {
+                                Image(systemName: viewModel.isSelected(user) ? "checkmark.square.fill" : "square")
+                                    .foregroundColor(viewModel.isSelected(user) ? .blue : .gray)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            Text(user.name)
+                        }
+                        .padding(.vertical, 10)
+                    }
                 }
                 .navigationTitle("Users")
                 .opacity(viewModel.state == .idle ? 1.0 : 0.5)
