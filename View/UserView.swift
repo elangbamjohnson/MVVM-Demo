@@ -6,13 +6,23 @@ struct UserView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                List(viewModel.users, id: \.name) { user in
-                    Text(user.name)
+                List(viewModel.users) { user in
+                    HStack {
+                        Button(action: {
+                            viewModel.toggleSelection(for: user)
+                        }) {
+                            Image(systemName: viewModel.isSelected(user) ? "checkmark.square.fill" : "square")
+                                .foregroundColor(viewModel.isSelected(user) ? .blue : .gray)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        Text(user.name)
+                    }
+                    .padding(.vertical, 10) // This increases the effective cell height
                 }
                 .navigationTitle("Users")
                 .opacity(viewModel.state == .idle ? 1.0 : 0.5)
                 
-                // Show Loading and Refreshing states
                 if viewModel.state != .idle {
                     VStack {
                         Spacer()
@@ -35,7 +45,6 @@ struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        // Mock data for preview could be added here
         let mockService = UserService()
         let mockStorage = FileUserStorage()
         let repository = UserRepository(service: mockService, storage: mockStorage)
