@@ -1,0 +1,3 @@
+[submodule "tools/AIAnalyzer"]
+	path = tools/AIAnalyzer
+	url = https://github.com/elangbamjohnson/AIAnalyzer.git
