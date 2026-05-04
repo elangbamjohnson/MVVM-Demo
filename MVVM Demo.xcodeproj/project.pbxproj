@@ -373,7 +373,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -euo pipefail\n\nANALYZER_REPO=\"${SRCROOT}/tools/AIAnalyzer\"\n\nif [ ! -f \"$ANALYZER_REPO/Package.swift\" ]; then\n  echo \"warning: AIAnalyzer not found at $ANALYZER_REPO\"\n  exit 0\nfi\n\n# Isolate the environment to prevent iOS build variables from breaking the macOS analyzer build\nRUN_ANALYZER=\"env -i HOME=$HOME PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin AI_ENABLED=false swift run --package-path $ANALYZER_REPO AIAnalyzer\"\n\nfor TARGET_PATH in \\\n  \"${SRCROOT}/ViewModel\" \\\n  \"${SRCROOT}/Service\"\ndo\n  [ -d \"$TARGET_PATH\" ] || continue\n  $RUN_ANALYZER \"$TARGET_PATH\" --json\ndone\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -euo pipefail\n\nANALYZER_REPO=\"${SRCROOT}/tools/AIAnalyzer\"\n\nif [ ! -f \"$ANALYZER_REPO/Package.swift\" ]; then\n  echo \"warning: AIAnalyzer not found at $ANALYZER_REPO\"\n  exit 0\nfi\n\n# Isolate the environment to prevent iOS build variables from breaking the macOS analyzer build\nRUN_ANALYZER=\"env -i HOME=$HOME PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin AI_ENABLED=false swift run --package-path $ANALYZER_REPO AIAnalyzer\"\n\nfor TARGET_PATH in \\\n  \"${SRCROOT}/ViewModel\" \\\n  \"${SRCROOT}/Service\"\ndo\n  [ -d \"$TARGET_PATH\" ] || continue\n  $RUN_ANALYZER \"$TARGET_PATH\" --xcode\ndone\n";
 
 		};
 /* End PBXShellScriptBuildPhase section */
