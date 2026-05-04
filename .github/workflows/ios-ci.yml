@@ -32,5 +32,6 @@ jobs:
           xcodebuild test \
             -project "MVVM Demo.xcodeproj" \
             -scheme "MVVM Demo" \
-            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=iPhone 17" \
             -quiet
