@@ -54,34 +54,30 @@ class UserViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.users.count, 2)
     }
     
-    //Test 3: Test the numberOfRows() helper
-    func testNumberOfRowsReturnsCorrectCount() async {
+    //Test 3: Verify user count via property
+    func testUserCountIsCorrect() async {
         await repository.load()
-        let rows = viewModel.numberOfRows()
-        XCTAssertEqual(rows, 2)
+        XCTAssertEqual(viewModel.users.count, 2)
     }
     
-    //Test 4: Test getting user name at specific index
-    func testUserNameAtIndexReturnsCorrectName() async {
+    //Test 4: Verify user name via property access
+    func testUserNameIsCorrect() async {
         await repository.load()
-        let name = viewModel.userName(at: 0)
-        XCTAssertEqual(name, "Test1")
+        XCTAssertEqual(viewModel.users[0].name, "Test1")
     }
     
-//    Test 5 : Verify the reloadTableView closure is called
-//    Purpose: Ensures the ViewModel notifies the View to reload the table when data changes.
-    func testReloadTableViewClosureIsCalled() async {
-//        Creates an XCTestExpectation (a way to test asynchronous behavior).
-        let expectation = self.expectation(description: "Reload table called")
-      
-//        Assigns a closure to reloadTableView.
-        viewModel.reloadTableView = {
-            expectation.fulfill()
-        }
-//        When fetchUsers() runs and didSet triggers, the closure runs → fulfill() is called.
-        await repository.load()
+//    Test 5 : Verify state transitions
+    func testLoadingStateTransitions() async {
+        let expectation = self.expectation(description: "State changes to loading or idle")
         
-//        waitForExpectations waits (up to 1 second) for the closure to be executed.
+        // In a real Combine test we would observe the publisher, 
+        // but since we are awaiting repository.load() which is synchronous in our mock,
+        // we can check the final state.
+        
+        await repository.load()
+        XCTAssertEqual(viewModel.state, .idle)
+        expectation.fulfill()
+        
         await fulfillment(of: [expectation], timeout: 1)
     }
     

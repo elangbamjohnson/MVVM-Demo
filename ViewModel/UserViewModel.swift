@@ -13,7 +13,7 @@ final class UserViewModel: ObservableObject {
     @Published private(set) var users: [User] = []
     @Published private(set) var state: LoadingState = .idle
     @Published private(set) var errorMessage: String? = nil
-    @Published var selectedUserNames: Set<String> = []
+    @Published var favoriteNames: Set<String> = [] // Local mirror of repository favorites
     
     private let repository : UserRepository
     private var cancellables = Set<AnyCancellable>()
@@ -40,7 +40,9 @@ final class UserViewModel: ObservableObject {
 
         repository.$errorMessage
             .assign(to: &$errorMessage)
- 
+
+        repository.$favorites
+            .assign(to: &$favoriteNames)
     }
     
     func fetchUsers() {
@@ -49,15 +51,11 @@ final class UserViewModel: ObservableObject {
         }
     }
     
-    func toggleSelection(for user: User) {
-        if selectedUserNames.contains(user.name) {
-            selectedUserNames.remove(user.name)
-        } else {
-            selectedUserNames.insert(user.name)
-        }
+    func toggleFavorite(for user: User) {
+        repository.toggleFavorite(userName: user.name)
     }
     
-    func isSelected(_ user: User) -> Bool {
-        selectedUserNames.contains(user.name)
+    func isFavorite(_ user: User) -> Bool {
+        favoriteNames.contains(user.name)
     }
 }

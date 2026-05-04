@@ -24,7 +24,7 @@ struct AppTabView: View {
                     Label("Home", systemImage: "house")
                 }
             
-            FavoriteView()
+            FavoriteView(viewModel: userViewModel) // Now passing the shared viewModel
                 .tabItem {
                     Label("Favorite", systemImage: "heart")
                 }

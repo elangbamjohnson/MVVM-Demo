@@ -21,15 +21,16 @@ struct UserView: View {
 
                     List(viewModel.users) { user in
                         HStack {
+                           
+                            Text(user.name)
+                            Spacer()
                             Button(action: {
-                                viewModel.toggleSelection(for: user)
+                                viewModel.toggleFavorite(for: user)
                             }) {
-                                Image(systemName: viewModel.isSelected(user) ? "checkmark.square.fill" : "square")
-                                    .foregroundColor(viewModel.isSelected(user) ? .blue : .gray)
+                                Image(systemName: viewModel.isFavorite(user) ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(viewModel.isFavorite(user) ? .blue : .gray)
                             }
                             .buttonStyle(PlainButtonStyle())
-                            
-                            Text(user.name)
                         }
                         .padding(.vertical, 10)
                     }
@@ -54,14 +55,5 @@ struct UserView: View {
         .onAppear {
             viewModel.fetchUsers()
         }
-    }
-}
-
-struct UserView_Previews: PreviewProvider {
-    static var previews: some View {
-        let mockService = UserService()
-        let mockStorage = FileUserStorage()
-        let repository = UserRepository(service: mockService, storage: mockStorage)
-        UserView(viewModel: UserViewModel(repository: repository))
     }
 }

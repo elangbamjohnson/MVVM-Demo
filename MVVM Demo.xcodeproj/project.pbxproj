@@ -227,6 +227,7 @@
 				2C55503E2F7A6A6A0033B489 /* Sources */,
 				2C55503F2F7A6A6A0033B489 /* Frameworks */,
 				2C5550402F7A6A6A0033B489 /* Resources */,
+				2CA22B2C2FA7A23C00EF83B0 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -355,6 +356,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2CA22B2C2FA7A23C00EF83B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -euo pipefail\n\nANALYZER_REPO=\"${SRCROOT}/tools/AIAnalyzer\"\nTARGET_PATH=\"${SRCROOT}\"\n\nif [ ! -f \"$ANALYZER_REPO/Package.swift\" ]; then\n  echo \"warning: AIAnalyzer not found at $ANALYZER_REPO\"\n  exit 0\nfi\n\nAI_ENABLED=false xcrun --sdk macosx swift run --package-path \"$ANALYZER_REPO\" AIAnalyzer \"$TARGET_PATH\" --json\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2C55503E2F7A6A6A0033B489 /* Sources */ = {
@@ -511,8 +532,9 @@
 				DEVELOPMENT_TEAM = A2CQ49GHDC;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -575,8 +597,9 @@
 				DEVELOPMENT_TEAM = A2CQ49GHDC;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
