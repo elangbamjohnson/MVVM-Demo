@@ -360,12 +360,16 @@
 /* Begin PBXShellScriptBuildPhase section */
 		2CA22B2C2FA7A23C00EF83B0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			basedOnDependencyAnalysis = 0;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${SRCROOT}/tools/AIAnalyzer/Package.swift",
+				"${SRCROOT}/tools/AIAnalyzer/Sources/AIAnalyzer/App/AnalyzerApp.swift",
+				"${SRCROOT}/tools/AIAnalyzer/Sources/AIAnalyzer/AI/AIConfiguration.swift",
 			);
 			outputFileListPaths = (
 			);
@@ -373,8 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -euo pipefail\n\nANALYZER_REPO=\"${SRCROOT}/tools/AIAnalyzer\"\n\nif [ ! -f \"$ANALYZER_REPO/Package.swift\" ]; then\n  echo \"warning: AIAnalyzer not found at $ANALYZER_REPO\"\n  exit 0\nfi\n\n# Isolate the environment to prevent iOS build variables from breaking the macOS analyzer build\nRUN_ANALYZER=\"env -i HOME=$HOME PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin AI_ENABLED=false swift run --package-path $ANALYZER_REPO AIAnalyzer\"\n\nfor TARGET_PATH in \\\n  \"${SRCROOT}/ViewModel\" \\\n  \"${SRCROOT}/Service\"\ndo\n  [ -d \"$TARGET_PATH\" ] || continue\n  $RUN_ANALYZER \"$TARGET_PATH\" --xcode\ndone\n";
-
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -euo pipefail\n\nANALYZER_REPO=\"${SRCROOT}/tools/AIAnalyzer\"\n\nif [ ! -f \"$ANALYZER_REPO/Package.swift\" ]; then\n  echo \"warning: AIAnalyzer not found at $ANALYZER_REPO\"\n  exit 0\nfi\n\n# `.aianalyzer.env` is loaded only inside AIAnalyzer (outermost file walking up from the scan path).\n\n# Unset iOS build variables to allow the macOS analyzer to build and run correctly\nexport -n SDKROOT\nexport -n TOOLCHAINS\n\n# Safe fallback if env file does not define it\nexport AI_ENABLED=\"${AI_ENABLED:-true}\"\n\necho \"warning: [AIAnalyzer] Starting analysis...\"\n\nBIN_PATH=\"$(cd \"$ANALYZER_REPO\" && swift build -q -c debug && swift build -c debug --show-bin-path)\"\nRUN_ANALYZER=\"$BIN_PATH/AIAnalyzer\"\nif [ ! -x \"$RUN_ANALYZER\" ]; then\n  echo \"warning: [AIAnalyzer] Executable missing at $RUN_ANALYZER (swift build may have failed).\"\n  exit 1\nfi\necho \"warning: [AIAnalyzer] Using SPM binary: $RUN_ANALYZER\"\n\nfor TARGET_PATH in \\\n  \"${SRCROOT}\" \n  \ndo\n  [ -d \"$TARGET_PATH\" ] || continue\n  \"$RUN_ANALYZER\" \"$TARGET_PATH\" --xcode\ndone\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
